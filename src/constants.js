@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 export const events = [
   'load-commit',
@@ -35,7 +35,7 @@ export const events = [
   'devtools-opened',
   'devtools-closed',
   'devtools-focused'
-];
+]
 
 export const methods = [
   'loadURL',
@@ -91,10 +91,10 @@ export const methods = [
   'showDefinitionForSelection',
   'getWebContents',
   'focus'
-];
+]
 
 export const props = {
-	src: PropTypes.string,
+  src: PropTypes.string,
   autosize: PropTypes.bool,
   preload: PropTypes.string,
   httpreferrer: PropTypes.string,
@@ -109,8 +109,8 @@ export const props = {
   // disableguestresize: PropTypes.bool,
   devtools: PropTypes.bool,
   muted: PropTypes.bool,
-  update: PropTypes.any,
-};
+  update: PropTypes.any
+}
 
 export const changableProps = {
   src: 'loadURL',
@@ -118,15 +118,15 @@ export const changableProps = {
   devtools: 'openDevTools',
   muted: 'setAudioMuted',
   autosize: 'setAutoResize',
-  zoom: 'setZoomFactor',
-};
+  zoom: 'setZoomFactor'
+}
 
 export const webPreferences = [
-  "devTools", "nodeIntegration", "nodeIntegrationInWorker", "nodeIntegrationInSubFrames", "preload", "sandbox", "enableRemoteModule", "session", "partition", "affinity", "zoomFactor", "javascript", "webSecurity", "allowRunningInsecureContent", "images", "textAreasAreResizable", "webgl", "plugins", "experimentalFeatures", "scrollBounce", "enableBlinkFeatures", "disableBlinkFeatures", "standard", "serif", "sansSerif", "monospace", "cursive", "fantasy", "defaultFontSize", "defaultMonospaceFontSize", "minimumFontSize", "defaultEncoding", "backgroundThrottling", "offscreen", "contextIsolation", "nativeWindowOpen", "webviewTag", "additionalArguments", "safeDialogs", "safeDialogsMessage", "navigateOnDragDrop", "autoplayPolicy", "disableHtmlFullscreenWindowResize"
+  'devTools', 'nodeIntegration', 'nodeIntegrationInWorker', 'nodeIntegrationInSubFrames', 'preload', 'sandbox', 'enableRemoteModule', 'session', 'partition', 'affinity', 'zoomFactor', 'javascript', 'webSecurity', 'allowRunningInsecureContent', 'images', 'textAreasAreResizable', 'webgl', 'plugins', 'experimentalFeatures', 'scrollBounce', 'enableBlinkFeatures', 'disableBlinkFeatures', 'standard', 'serif', 'sansSerif', 'monospace', 'cursive', 'fantasy', 'defaultFontSize', 'defaultMonospaceFontSize', 'minimumFontSize', 'defaultEncoding', 'backgroundThrottling', 'offscreen', 'contextIsolation', 'nativeWindowOpen', 'webviewTag', 'additionalArguments', 'safeDialogs', 'safeDialogsMessage', 'navigateOnDragDrop', 'autoplayPolicy', 'disableHtmlFullscreenWindowResize'
 ]
 
 // Events that should trigger an update of the BrowserView bounds
 export const resizeEvents = [
-	'scroll',
-	'resize',
+  'scroll',
+  'resize'
 ]

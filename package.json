@@ -17,7 +17,8 @@
     "browserify": "^16.5.0",
     "customize-cra": "^0.9.1",
     "lodash.camelcase": "^4.3.0",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "standard": "^14.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
@@ -53,7 +54,7 @@
   },
   "scripts": {
     "build": "gulp clean && gulp build",
-    "lint": "react-scripts run lint",
+    "lint": "standard --fix",
     "pretest": "npm run build",
     "test": "npm run lint && npm run mocha",
     "watch": "gulp watch",
@@ -62,6 +63,13 @@
   },
   "keywords": [
     "react",
-    "react-component"
-  ]
+    "react-component",
+    "electron",
+    "browserview"
+  ],
+  "standard": {
+    "ignore": [
+      "/lib/*"
+    ]
+  }
 }

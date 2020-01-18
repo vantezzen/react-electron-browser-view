@@ -1,53 +1,54 @@
-import React, { Component } from 'react';
-import WebView from '../../src/ElectronBrowserView';
-import { resolve } from 'path';
+import React, { Component } from 'react'
+import WebView from '../../src/ElectronBrowserView'
+import { resolve } from 'path'
 
-const preload = resolve('./example/src/preload.js');
+const preload = resolve('./example/src/preload.js')
 
 // URL we want to toggle between
 const urls = [
   'https://vantezzen.io',
-  'https://github.com',
+  'https://github.com'
 ]
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.state = {
       url: 0,
       view: true,
       viewHide: false,
-      devTools: true,
+      devTools: true
     }
   }
 
-  toggleDevTools() {
-    this.setState(state => ({ devTools: !state.devTools }));
+  toggleDevTools () {
+    this.setState(state => ({ devTools: !state.devTools }))
   }
 
-  switchURL() {
+  switchURL () {
     this.setState((state) => {
       if (state.url + 1 >= urls.length) {
         return {
-          url: 0,
-        };
+          url: 0
+        }
       } else {
         return {
-          url: state.url + 1,
-        };
+          url: state.url + 1
+        }
       }
     })
   }
 
-  toggleView() {
-    this.setState(state => ({ view: !state.view }));
-  }
-  toggleViewHide() {
-    this.setState(state => ({ viewHide: !state.viewHide }));
+  toggleView () {
+    this.setState(state => ({ view: !state.view }))
   }
 
-  render() {
+  toggleViewHide () {
+    this.setState(state => ({ viewHide: !state.viewHide }))
+  }
+
+  render () {
     return (
       <div style={{ height: '150vh', margin: 25 }}>
         <h1>Hello, Electron!</h1>
@@ -88,8 +89,9 @@ class App extends Component {
             width: '50vw',
             marginLeft: '40vw',
             marginTop: 60
-          }}>
-          <WebView src="https://example.com" preload={preload} />
+          }}
+        >
+          <WebView src='https://example.com' preload={preload} />
         </div>
         <div
           style={{
@@ -99,12 +101,13 @@ class App extends Component {
             width: '50vw',
             marginLeft: '40vw',
             marginTop: 60
-          }}>
-          <WebView src="https://github.com" preload={preload} />
+          }}
+        >
+          <WebView src='https://github.com' preload={preload} />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
