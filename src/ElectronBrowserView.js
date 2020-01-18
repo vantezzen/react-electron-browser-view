@@ -1,3 +1,10 @@
+/**
+ * react-electron-browser-view: A simple wrapper of the Electron BrowserView element to allow it's magical props in React
+ * 
+ * @license MIT
+ * @author vantezzen (https://vantezzen.io)
+ * @repo https://github.com/vantezzen/react-electron-browser-view
+ */
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -7,7 +14,7 @@ import { changableProps, events, methods, props, webPreferences, resizeEvents } 
 
 const win = remote.getCurrentWindow();
 
-export default class ElectronWebView extends Component {
+export default class ElectronBrowserView extends Component {
   constructor(props) {
     super(props);
 
@@ -36,6 +43,7 @@ export default class ElectronWebView extends Component {
       vertical: true,
     })
     this.view.webContents.loadURL(this.props.src || '')
+    this.setDevTools(this.props.devtools || false);
 
     methods.forEach((method) => {
       this[method] = (...args) => {
@@ -59,23 +67,15 @@ export default class ElectronWebView extends Component {
 
     // Connect our event listeners to update the browser view
     events.forEach((event) => {
-      // this.view.webContents.addEventListener(event, (...eventArgs) => {
-      //   const propName = camelCase(`on-${event}`);
-      //   // console.log('Firing event: ', propName, ' has listener: ', !!this.props[propName]);
+      this.view.webContents.on(event, (...eventArgs) => {
+        const propName = camelCase(`on-${event}`);
+        // console.log('Firing event: ', propName, ' has listener: ', !!this.props[propName]);
 
-      //   // Proxy events to listeners we got as props
-      //   if (this.props[propName]) this.props[propName](...eventArgs);
-      // });
+        // Proxy events to listeners we got as props
+        if (this.props[propName]) this.props[propName](...eventArgs);
+      });
     });
     if (this.props.onDidAttach) this.props.onDidAttach(...attachArgs);
-
-    this.setDevTools = (open) => {
-      if (open && !this.isDevToolsOpened()) {
-        this.openDevTools();
-      } else if (!open && this.isDevToolsOpened()) {
-        this.closeDevTools();
-      }
-    };
   }
 
   componentWillUnmount() {
@@ -97,6 +97,16 @@ export default class ElectronWebView extends Component {
         }
       }
     });
+    this.setDevTools(this.props.devtools || false);
+    this.updateViewBounds();
+  }
+
+  setDevTools(open) {
+    if (open && !this.view.webContents.isDevToolsOpened()) {
+      this.view.webContents.openDevTools();
+    } else if (!open && this.view.webContents.isDevToolsOpened()) {
+      this.view.webContents.closeDevTools();
+    }
   }
 
   updateViewBounds() {
@@ -133,11 +143,11 @@ export default class ElectronWebView extends Component {
   }
 }
 
-ElectronWebView.propTypes = Object.assign({
+ElectronBrowserView.propTypes = Object.assign({
   className: PropTypes.string,
   style: PropTypes.object,
 }, props);
 
 events.forEach((event) => {
-  ElectronWebView.propTypes[camelCase(`on-${event}`)] = PropTypes.func;
+  ElectronBrowserView.propTypes[camelCase(`on-${event}`)] = PropTypes.func;
 });

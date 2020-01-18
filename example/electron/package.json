@@ -1,6 +1,6 @@
 {
   "name": "react-electron-browser-view-example",
-  "main": "src/index.js",
+  "main": "index.js",
   "browserslist": {
     "production": [
       ">0.2%",

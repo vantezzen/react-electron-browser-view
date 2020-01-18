@@ -31,4 +31,3 @@ example/dist
 *.DS_Store
 
 dist/
-lib/

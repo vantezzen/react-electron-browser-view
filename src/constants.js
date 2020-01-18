@@ -107,14 +107,15 @@ export const props = {
   disableblinkfeatures: PropTypes.string,
   // guestinstance: PropTypes.number,
   // disableguestresize: PropTypes.bool,
-  // devtools: PropTypes.bool,
+  devtools: PropTypes.bool,
   muted: PropTypes.bool,
+  update: PropTypes.any,
 };
 
 export const changableProps = {
   src: 'loadURL',
   useragent: 'setUserAgent',
-  // devtools: 'setDevTools',
+  devtools: 'openDevTools',
   muted: 'setAudioMuted',
   autosize: 'setAutoResize',
   zoom: 'setZoomFactor',

@@ -1,3 +1,3 @@
-import ElectronWebView from './ElectronWebView.js'; // eslint-disable-line
+import ElectronBrowserView from './ElectronBrowserView.js'; // eslint-disable-line
 
-module.exports = ElectronWebView;
+module.exports = ElectronBrowserView;

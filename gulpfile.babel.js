@@ -9,15 +9,15 @@ import rimraf from 'gulp-rimraf';
 import source from 'vinyl-source-stream';
 
 const config = {
-  entryFile: './src/main.js',
+  entryFile: './src/ElectronBrowserView.js',
   outputDir: './lib',
-  outputFile: './ElectronWebView.js',
+  outputFile: './ElectronBrowserView.js',
 };
 
 gulp.task('build', () =>
   browserify(config.entryFile, {
     extensions: ['jsx'],
-    standalone: 'ElectronWebView',
+    standalone: 'ElectronBrowserView',
   }).transform(babelify)
     .external('react')
     .external('react-dom')
