@@ -30,6 +30,5 @@ example/dist
 .idea/
 *.DS_Store
 
-example/
 dist/
 lib/
