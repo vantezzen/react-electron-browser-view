@@ -26,18 +26,18 @@ An example application has been provided in `example/`. To run it, use `yarn exa
 All events and methods on the BrowserView element are proxied through react. You
 find the documentation on these events and methods [here](https://electronjs.org/docs/api/browser-view)
 
-```
+```JavaScript
 const BrowserView = require('react-electron-browser-view');
 
 <BrowserView src="https://www.google.com" />
 ```
 
 All compatible props you initially give the BrowserView will also be proxied to the [BrowserView's webPreferences](https://electronjs.org/docs/api/browser-window) options
-```
+```JavaScript
 <BrowserView preload={path.join('./preload.js')} />
 ```
 Alternatively, webpreferences can be provided using the `webpreferences` props:
-```
+```JavaScript
 <BrowserView webpreferences={{
   preload: path.join('./preload.js'),
 }} />
