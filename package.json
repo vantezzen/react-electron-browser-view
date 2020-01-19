@@ -1,6 +1,6 @@
 {
   "name": "react-electron-browser-view",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Electron BrowserView Component for React",
   "main": "lib/ElectronBrowserView.js",
   "author": "vantezzen (https://vantezzen.io)",
@@ -26,6 +26,7 @@
     "chai": "4.2.0",
     "concurrently": "^5.0.2",
     "cross-env": "^6.0.3",
+    "customize-cra": "^0.9.1",
     "electron": "^7.1.9",
     "electron-mocha": "8.2.0",
     "enzyme": "3.11.0",
@@ -41,10 +42,11 @@
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.12.0",
     "react-scripts": "^3.3.0",
+    "standard": "^14.3.1",
     "vinyl-source-stream": "2.0.0",
     "wait-on": "^3.3.0",
-    "standard": "^14.3.1",
-    "customize-cra": "^0.9.1",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
     "webpack-stream": "^5.2.1"
   },
   "peerDependencies": {
@@ -52,11 +54,11 @@
     "react-dom": "^15.0.0"
   },
   "scripts": {
-    "build": "gulp build",
+    "build": "webpack -p",
     "lint": "standard --fix",
     "pretest": "npm run build",
     "test": "npm run lint && npm run mocha",
-    "watch": "gulp watch",
+    "watch": "webpack --watch -p",
     "example-react": "cd example && react-app-rewired start",
     "example": "concurrently \"cross-env BROWSER=none yarn example-react\" \"wait-on http://localhost:3000 && electron ./example/electron\""
   },
