@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import WebView from '../../src/ElectronBrowserView'
+import ElectronBrowserView from '../../src/ElectronBrowserView'
 import { resolve } from 'path'
 
 const preload = resolve('./example/src/preload.js')
@@ -18,7 +18,8 @@ class App extends Component {
       url: 0,
       view: true,
       viewHide: false,
-      devTools: true
+      devTools: true,
+      transform: false,
     }
   }
 
@@ -48,6 +49,10 @@ class App extends Component {
     this.setState(state => ({ viewHide: !state.viewHide }))
   }
 
+  toggleTransform () {
+    this.setState(state => ({ transform: !state.transform }))
+  }
+
   render () {
     return (
       <div style={{ height: '150vh', margin: 25 }}>
@@ -58,22 +63,33 @@ class App extends Component {
         <button onClick={() => this.switchURL()}>Switch URL</button>
         <button onClick={() => this.toggleView()}>Toggle View Mount</button>
         <button onClick={() => this.toggleViewHide()}>Toggle View Hide</button>
+        <button onClick={() => this.toggleTransform()}>Toggle CSS transform</button>
 
         <div
           style={{
             width: '80vw',
             marginLeft: 20,
             marginTop: 30,
+            display: 'flex',
+            transition: 'all 0.5s',
+            ...this.state.transform ? { transform: 'translateX(300px)' } : {},
             ...this.state.viewHide ? { display: 'none' } : {}
           }}
         >
           {
             this.state.view && (
-              <WebView
+              <ElectronBrowserView
                 src={urls[this.state.url]}
                 preload={preload}
                 devtools={this.state.devTools}
-                // update={this.state.viewHide}
+                onDidAttach={() => {
+                  console.log("BrowserView attached");
+                }}
+                onUpdateTargetUrl={() => {
+                  console.log("Updated Target URL");
+                }}
+                // We need trackposition as animated events won't track otherwise
+                trackposition
               />
             )
           }
@@ -91,7 +107,7 @@ class App extends Component {
             marginTop: 60
           }}
         >
-          <WebView src='https://example.com' preload={preload} />
+          <ElectronBrowserView src='https://example.com' preload={preload} />
         </div>
         <div
           style={{
@@ -103,7 +119,7 @@ class App extends Component {
             marginTop: 60
           }}
         >
-          <WebView src='https://github.com' preload={preload} />
+          <ElectronBrowserView src='https://github.com' preload={preload} />
         </div>
       </div>
     )

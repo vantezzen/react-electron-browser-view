@@ -42,8 +42,15 @@ export default class ElectronBrowserView extends Component {
       horizontal: true,
       vertical: true
     })
+
+    // Add event listener alias to keep compatability
+    this.view.addEventListener = this.view.webContents.on;
     this.view.webContents.loadURL(this.props.src || '')
     this.setDevTools(this.props.devtools || false)
+
+    if (this.props.onDidAttach) {
+      this.props.onDidAttach();
+    }
 
     methods.forEach((method) => {
       this[method] = (...args) => {
@@ -75,12 +82,18 @@ export default class ElectronBrowserView extends Component {
         if (this.props[propName]) this.props[propName](...eventArgs)
       })
     })
+
+    this.setPositionTracking(this.props.trackposition);
   }
 
   componentWillUnmount () {
     resizeEvents.forEach((event) => {
       window.removeEventListener(event, () => this.updateViewBounds())
     })
+
+    if (this.track) {
+      clearInterval(this.track);
+    }
 
     win.removeBrowserView(this.view)
     this.view.destroy()
@@ -98,6 +111,16 @@ export default class ElectronBrowserView extends Component {
     })
     this.setDevTools(this.props.devtools || false)
     this.updateViewBounds()
+    this.setPositionTracking(this.props.trackposition);
+  }
+
+  setPositionTracking(on) {
+    if (on && !this.track) {
+      this.track = setInterval(() => this.updateViewBounds(), 0);
+    } else if (!on && this.view.webContents.isDevToolsOpened()) {
+      clearInterval(this.track);
+      this.track = false;
+    }
   }
 
   setDevTools (open) {

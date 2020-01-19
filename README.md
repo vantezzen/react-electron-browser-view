@@ -62,6 +62,7 @@ ones
 * `muted` Boolean - Sets the muted state of the webContents
 * `devtools` Boolean - Activates devtools for the view. This will open the devTools **inside** the view itself - not the container
 * `update` Any - Force position updates (see Notes below)
+* `trackposition` Boolean - Constantly track the position of the element (see [Notes](#trackposition) below)
 
 ### Notes
 
@@ -71,6 +72,14 @@ Please always keep in mind that the BrowserView is only overlayed over your actu
 This package tries its best to keep the position and size of the view in sync but there may be certain limitations on this: Certain actions may not update the BrowserView element which thus cannot update the view correctly.
 
 If you stumble upon such a case, please use the `update` props and pass any props that should trigger the view to relocate. The contents of this props are not actually used, but React will trigger the `componentDidUpdate` used for relocating the view nonetheless.
+
+#### trackposition
+If you are trying to animate the view, e.g. using CSS `transform` with `transition` enabled, you will notice that the view also doesn't update correctly. In this case the view only updates on the first frame of the animation and won't update after that.
+If you have to animate the element, please use the `trackposition` props. This will start a constant interval that tracks the position of the element even when the React element's props don't update.
+
+Please **avoid this prop** if you don't absolutely need it and please don't use it on more than one BrowserView at a time as the loop will create performance problems otherwise.
+
+`trackposition` can also be dis- and enabled during the elements lifetime, so you can enable it during phases you use it and disable it otherwise.
 
 ## Development (`src`, `lib` and the build process)
 
