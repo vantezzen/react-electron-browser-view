@@ -3,6 +3,7 @@
   "version": "2.1.5",
   "description": "Electron BrowserView Component for React",
   "main": "lib/ElectronBrowserView.js",
+  "license": "MIT",
   "author": "vantezzen (https://vantezzen.io)",
   "homepage": "https://github.com/vantezzen/react-electron-browser-view",
   "repository": {
