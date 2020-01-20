@@ -167,7 +167,8 @@ export default class ElectronBrowserView extends Component {
         className={this.props.className || ''}
         style={Object.assign({}, {
           width: '100%',
-          height: 200
+          height: '100%',
+          minHeight: 10,
         }, this.props.style || {})}
       />
     )
@@ -176,7 +177,7 @@ export default class ElectronBrowserView extends Component {
 
 ElectronBrowserView.propTypes = Object.assign({
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
 }, props)
 
 events.forEach((event) => {
