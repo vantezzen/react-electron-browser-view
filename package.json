@@ -1,6 +1,6 @@
 {
   "name": "react-electron-browser-view",
-  "version": "2.1.3",
+  "version": "2.1.5",
   "description": "Electron BrowserView Component for React",
   "main": "lib/ElectronBrowserView.js",
   "author": "vantezzen (https://vantezzen.io)",
