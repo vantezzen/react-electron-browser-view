@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash.camelcase'
 import { remote } from 'electron'
-import { changableProps, events, methods, props, webPreferences, resizeEvents } from './constants'
+import { changableProps, events, methods, props, webPreferences, resizeEvents, elementResizeEvents } from './constants'
 
 const win = remote.getCurrentWindow()
 
@@ -74,14 +74,22 @@ export default class ElectronBrowserView extends Component {
 
     // Connect our event listeners to update the browser view
     events.forEach((event) => {
-      this.view.webContents.on(event, (...eventArgs) => {
-        const propName = camelCase(`on-${event}`)
-        // console.log('Firing event: ', propName, ' has listener: ', !!this.props[propName]);
-
-        // Proxy events to listeners we got as props
-        if (this.props[propName]) this.props[propName](...eventArgs)
-      })
+      if (this.view.isDestroyed()) {
+        this.view.webContents.on(event, (...eventArgs) => {
+          const propName = camelCase(`on-${event}`)
+          // console.log('Firing event: ', propName, ' has listener: ', !!this.props[propName]);
+  
+          // Proxy events to listeners we got as props
+          if (this.props[propName]) this.props[propName](...eventArgs)
+        })
+      }
     })
+
+    // Get our container Element from the page
+    const container = ReactDOM.findDOMNode(this.c)
+    elementResizeEvents.forEach((event => {
+      container.addEventListener(event, () => this.updateViewBounds())
+    }))
 
     this.setPositionTracking(this.props.trackposition);
   }

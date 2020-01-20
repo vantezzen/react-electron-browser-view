@@ -130,3 +130,9 @@ export const resizeEvents = [
   'scroll',
   'resize'
 ]
+
+export const elementResizeEvents = [
+  'animationend',
+  'animationiteration',
+  'transitionend',
+];
