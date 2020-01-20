@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ElectronBrowserView from '../../src/ElectronBrowserView'
+import ElectronBrowserView from '../../lib/ElectronBrowserView'
 import { resolve } from 'path'
 
 const preload = resolve('./example/src/preload.js')
@@ -67,8 +67,7 @@ class App extends Component {
 
         <div
           style={{
-            width: '80vw',
-            marginLeft: 20,
+            width: '90vw',
             marginTop: 30,
             display: 'flex',
             transition: 'all 0.5s',
@@ -89,7 +88,10 @@ class App extends Component {
                   console.log("Updated Target URL");
                 }}
                 // We need trackposition as animated events won't track otherwise
-                trackposition
+                // trackposition
+                style={{
+                  height: 200,
+                }}
               />
             )
           }
@@ -101,25 +103,25 @@ class App extends Component {
           style={{
             position: 'absolute',
             bottom: 30,
-            right: 30,
+            left: 30,
             width: '50vw',
             marginLeft: '40vw',
             marginTop: 60
           }}
         >
-          <ElectronBrowserView src='https://example.com' preload={preload} />
+          <ElectronBrowserView src='https://example.com' style={{ height: 200 }} />
         </div>
         <div
           style={{
             position: 'absolute',
             bottom: 20,
-            right: 200,
+            right: 300,
             width: '50vw',
             marginLeft: '40vw',
             marginTop: 60
           }}
         >
-          <ElectronBrowserView src='https://github.com' preload={preload} />
+          <ElectronBrowserView src='https://github.com' style={{ height: 200 }} />
         </div>
       </div>
     )
