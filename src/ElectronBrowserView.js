@@ -74,10 +74,9 @@ export default class ElectronBrowserView extends Component {
 
     // Connect our event listeners to update the browser view
     events.forEach((event) => {
-      if (this.view.isDestroyed()) {
+      if (!this.view.isDestroyed()) {
         this.view.webContents.on(event, (...eventArgs) => {
           const propName = camelCase(`on-${event}`)
-          // console.log('Firing event: ', propName, ' has listener: ', !!this.props[propName]);
   
           // Proxy events to listeners we got as props
           if (this.props[propName]) this.props[propName](...eventArgs)
