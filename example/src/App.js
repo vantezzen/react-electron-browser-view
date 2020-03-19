@@ -60,22 +60,35 @@ class App extends Component {
     return (
       <div style={{ height: '150vh', margin: 25 }}>
         <h1>Hello, Electron!</h1>
-        <p>Below is a BrowserView you can use.</p>
-        <p>Un- and remounting a view will cause it to unload. Hide it using CSS to keep the view alive in the background</p>
+        <p>Below is a simple BrowserView, showcasing some important concepts.</p>
         <button onClick={() => this.toggleDevTools()}>Toggle DevTools</button>
         <button onClick={() => this.switchURL()}>Switch URL</button>
+
+        <p>Un- and remounting a view will cause it to unload. Hide it using CSS to keep the view alive in the background</p>
         <button onClick={() => this.toggleView()}>Toggle View Mount</button>
         <button onClick={() => this.toggleViewHide()}>Toggle View Hide</button>
+
+        <p>
+          When animating the view, e.g. with CSS transform, you should enable tracking the position
+          as the view doesn't update correctly otherwise.
+        </p>
+        <p>
+          You can see this by toggling the CSS transform without tracking position and then slowly scrolling.
+          Scrolling triggers the view to update (just like tracking position does).
+        </p>
         <button onClick={() => this.toggleTransform()}>Toggle CSS transform</button>
         <button onClick={() => this.toggleTracking()}>
           {this.state.trackposition ? 'Stop tracking position' : 'Track position'}
         </button>
 
+        <p>
+          Showcasing the use of instance methods:
+        </p>
         <button onClick={() => {
           // Using our BrowserView reference to execute instance methods
           this.view.insertCSS('body { background-color: #FF0000 !important }');
         }}>
-          Inject addition CSS (showcasing instance methods)
+          Inject addition CSS
         </button>
 
         <div
@@ -119,7 +132,7 @@ class App extends Component {
 
         <div
           style={{
-            position: 'absolute',
+            position: 'relative',
             bottom: 30,
             left: 30,
             width: '50vw',
@@ -131,10 +144,10 @@ class App extends Component {
         </div>
         <div
           style={{
-            position: 'absolute',
-            bottom: 20,
+            position: 'relative',
+            bottom: 100,
             right: 300,
-            width: '50vw',
+            width: '70vw',
             marginLeft: '40vw',
             marginTop: 60
           }}
