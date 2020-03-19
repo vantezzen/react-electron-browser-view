@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import ElectronBrowserView from '../../lib/ElectronBrowserView'
 import { resolve } from 'path'
+import ElectronBrowserView from '../../lib/ElectronBrowserView'
 
 const preload = resolve('./example/src/preload.js')
 
@@ -11,17 +11,16 @@ const urls = [
 ]
 
 class App extends Component {
-  constructor (props) {
-    super(props)
+  state = {
+    url: 0,
+    view: true,
+    viewHide: false,
+    devTools: true,
+    transform: false,
+    trackposition: false,
+  };
 
-    this.state = {
-      url: 0,
-      view: true,
-      viewHide: false,
-      devTools: true,
-      transform: false,
-    }
-  }
+  view = null;
 
   toggleDevTools () {
     this.setState(state => ({ devTools: !state.devTools }))
@@ -53,6 +52,10 @@ class App extends Component {
     this.setState(state => ({ transform: !state.transform }))
   }
 
+  toggleTracking () {
+    this.setState(state => ({ trackposition: !state.trackposition }))
+  }
+
   render () {
     return (
       <div style={{ height: '150vh', margin: 25 }}>
@@ -64,6 +67,16 @@ class App extends Component {
         <button onClick={() => this.toggleView()}>Toggle View Mount</button>
         <button onClick={() => this.toggleViewHide()}>Toggle View Hide</button>
         <button onClick={() => this.toggleTransform()}>Toggle CSS transform</button>
+        <button onClick={() => this.toggleTracking()}>
+          {this.state.trackposition ? 'Stop tracking position' : 'Track position'}
+        </button>
+
+        <button onClick={() => {
+          // Using our BrowserView reference to execute instance methods
+          this.view.insertCSS('body { background-color: #FF0000 !important }');
+        }}>
+          Inject addition CSS (showcasing instance methods)
+        </button>
 
         <div
           style={{
@@ -88,9 +101,14 @@ class App extends Component {
                   console.log("Updated Target URL");
                 }}
                 // We need trackposition as animated events won't track otherwise
-                // trackposition
+                trackposition={this.state.trackposition}
                 style={{
                   height: 200,
+                }}
+
+                // Keep instance reference so we can execute methods
+                ref={(view) => {
+                  this.view = view;
                 }}
               />
             )

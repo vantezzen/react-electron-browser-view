@@ -15,11 +15,8 @@ import { changableProps, events, methods, props, webPreferences, resizeEvents, e
 const win = remote.getCurrentWindow()
 
 export default class ElectronBrowserView extends Component {
-  constructor (props) {
-    super(props)
-
-    this.view = 0
-  }
+  view = null;
+  track = false;
 
   componentDidMount () {
     const options = {
@@ -123,10 +120,8 @@ export default class ElectronBrowserView extends Component {
 
   setPositionTracking(on) {
     if (on && !this.track) {
-      this.track = setInterval(() => this.updateViewBounds(), 0);
-    } else if (!on && this.view.webContents.isDevToolsOpened()) {
-      clearInterval(this.track);
-      this.track = false;
+      this.track = true;
+      this.updateViewBounds();
     }
   }
 
@@ -139,6 +134,7 @@ export default class ElectronBrowserView extends Component {
   }
 
   updateViewBounds () {
+    // We can only update our view if there is a container element
     if (this.c) {
       // Get our container Element from the page
       const container = ReactDOM.findDOMNode(this.c)
@@ -156,6 +152,13 @@ export default class ElectronBrowserView extends Component {
 
         this.view.setBounds(bounds)
       }
+    }
+
+    if (this.props.trackposition) {
+      window.requestAnimationFrame(() => this.updateViewBounds());
+    } else {
+      // We are not tracking the position anymore
+      this.track = false;
     }
   }
 

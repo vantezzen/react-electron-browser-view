@@ -7,13 +7,9 @@ This package is made to be a drop-in replacement for the [react-electron-web-vie
 ℹ️ This package uses Electron's `addBrowserView` to allow multiple Browser Views at once. This requires at least Electron >= 4.
 
 ## Installation
-```
+```bash
 npm install react-electron-browser-view
-```
-
-or
-
-```
+# or
 yarn add react-electron-browser-view
 ```
 
@@ -27,44 +23,44 @@ The `BrowserView` element can be used in the same way you can use [react-electro
 
 All events and methods on the BrowserView element are proxied. See [#Events](#events) and [#Methods](#methods) below for more information.
 
-You can find the documentation on available events and methods [in the Electron docs](https://electronjs.org/docs/api/browser-view)
+You can find more information on available events and methods [in the Electron docs](https://electronjs.org/docs/api/browser-view)
 
+Usage:
 ```JavaScript
-const BrowserView = require('react-electron-browser-view');
+import BrowserView from 'react-electron-browser-view';
+// or
+const BrowserView = require('react-electron-browser-view').default;
 
 <BrowserView
+  // Your source
   src="https://www.google.com"
+
+  // Using events
   onDidAttach={() => {
     console.log("BrowserView attached");
   }}
   onUpdateTargetUrl={() => {
     console.log("Updated Target URL");
   }}
+
+  // Providing styling for the container element
   style={{
     height: 200,
   }}
 />
 ```
 
-All compatible props you initially give the BrowserView will also be proxied to the [BrowserView's webPreferences](https://electronjs.org/docs/api/browser-window) options
-```JavaScript
-<BrowserView preload={path.join('./preload.js')} />
-```
-
-Alternatively, an object of webpreferences can be provided using the `webpreferences` props. Please keep in mind that directly setting `webpreferences` props as seen above will overwrite the options given through this prop.
-```JavaScript
-<BrowserView webpreferences={{
-  preload: path.join('./preload.js'),
-}} />
-```
-
-It is highly recommended to remove all previous BrowserViews on page load by adding a code like
-```JavaScript
-import { remote } from 'electron';
-const views = remote.BrowserView.getAllViews();
-views.forEach(view => view.destroy());
-```
 This package will normally handle deleting views but sometimes - especially on reloads - `react-electron-browser-view` doesn't get unmounted correctly and leaves browser views behind.
+
+This is why we recommend that you execute this package's `removeViews` function during your application start (e.g. in your `index.js` file):
+```JavaScript
+import { removeViews } from 'react-electron-browser-view';
+// or
+const { removeViews } = require('react-electron-browser-view');
+
+// Remove all previous BrowserViews
+removeViews();
+```
 
 
 ### Properties
@@ -78,10 +74,28 @@ ones
 * `devtools` Boolean - Activates devtools for the view. This will open the devTools **inside** the view itself - not the container
 * `update` Any - Force position updates (see [Notes](#%22update%22-prop) below)
 * `trackposition` Boolean - Constantly track the position of the element (see [Notes](#animating-the-browserview) below)
+* `...webPreferences`, see [Notes below](#webPreferences)
+* `...events`, see [Notes below](#events)
 
-### Notes
+### Behind the scenes
 
 Behind the scenes this renders a div with the given size. It will then use use the position and size from this div to place the BrowserView right over it.
+
+As opposed to WebViews, BrowserViews are not availible as normal HTML elements. This is why this package uses this method.
+
+### webPreferences
+There are two different ways you can provide settings to the BrowserView's `webPreferences`:
+1. Directly as a prop, e.g.
+```JavaScript
+<BrowserView preload={path.join('./preload.js')} />
+```
+
+2. As an object: webpreferences can be provided using the `webpreferences` props. Please keep in mind that directly setting `webpreferences` props as seen above will overwrite the options given through this prop.
+```JavaScript
+<BrowserView webpreferences={{
+  preload: path.join('./preload.js'),
+}} />
+```
 
 #### Events
 This package will forward events fired by the BrowserView to your code. For a list of supported events, take a look at [constants.js](https://github.com/vantezzen/react-electron-browser-view/blob/master/src/constants.js#L3).
@@ -143,11 +157,11 @@ This code will make sure that the BrowserView gets updated each time `this.state
 
 #### Animating the BrowserView
 If you are trying to animate the view, e.g. using CSS `transform` with `transition` enabled, you will notice that the view doesn't update correctly. In this case the view only updates on the first frame of the animation and won't update after that.
-If you have to animate the view, please use the `trackposition` props. This will start a JavaScript interval that tracks the position of the element even when the React element's props don't update.
+If you have to animate the view, please use the `trackposition` props. This will use JavaScript animation frames to track the position of the element even when the React element's props don't update.
 
-Please **avoid this prop** if you don't absolutely need it and please don't use it on more than one BrowserView at a time as the loop will create performance problems otherwise.
+Please **avoid this prop** if you don't absolutely need it and please don't use it on more than one BrowserView at a time as the loop can create performance problems otherwise.
 
-`trackposition` can also be dis- and enabled during the elements lifetime, so you can enable it during phases you use it and disable it otherwise.
+`trackposition` can be dis- and enabled during the elements lifetime, so you can enable it during phases you use it and disable it otherwise.
 
 Example:
 ```JavaScript
@@ -168,4 +182,4 @@ This package is based on and highly influences by [react-electron-web-view](http
 
 MIT
 
-Copyright (c) 2019 vantezzen.
+Copyright (c) 2020 vantezzen.

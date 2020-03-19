@@ -1,6 +1,6 @@
 {
   "name": "react-electron-browser-view",
-  "version": "2.1.7",
+  "version": "3.0.0",
   "description": "Electron BrowserView Component for React",
   "main": "lib/ElectronBrowserView.js",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "url": "https://github.com/vantezzen/react-electron-browser-view/issues"
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "lodash.camelcase": "^4.3.0",
     "prop-types": "^15.7.2"
   },
